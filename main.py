@@ -2,11 +2,20 @@ from typing import Union
 from fastapi import FastAPI
 from fastapi.encoders import jsonable_encoder
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
 import config as cfg
 
 app = FastAPI()
 
 origins = ["*"]
+
+
+
+class Product(BaseModel):
+    name:str
+    price:int
+    category: str
+    descript: str
 
 
 @app.get("/")
@@ -21,6 +30,15 @@ def read_item(item_id: int, q: Union[str, None] = None):
 
 @app.get("/products")
 def read_item():
+    return cfg.all_products
+
+
+@app.post("/product")
+def add_product(product: Product):
+    product = jsonable_encoder(product)
+    product["id"] = len(cfg.all_products) + 1
+    product = Product(**product)
+    cfg.all_products.append(product)
     return cfg.all_products
 
 
