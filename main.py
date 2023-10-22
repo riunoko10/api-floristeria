@@ -2,19 +2,12 @@ from typing import Union
 from fastapi import FastAPI
 from fastapi.encoders import jsonable_encoder
 from fastapi.middleware.cors import CORSMiddleware
-from sqlmodel import SQLModel, Session
-from db.db import engine 
 from models.products_model import Products
+
 
 app = FastAPI()
 
 origins = ["*"]
-
-session = Session(engine)
-
-
-def create_db_and_tables():
-    SQLModel.metadata.create_all(engine)
 
 
 @app.get("/")
@@ -27,19 +20,32 @@ def read_item(item_id: int, q: Union[str, None] = None):
     return {"item_id": item_id, "q": q}
 
 
-@app.post("/gem")
-def create_gem(product: Products):
-    try:
-        create_db_and_tables()
-    except:
-        pass
-    g = product(product.name,
-        product.descript,
-        product.price,)
-    session.add(g)
-    session.commit()
-    session.refresh(g)
-    return g
+all_products = [
+    {
+        "id": 1,
+        "name": "Producto 1",
+        "price": 100,
+        "descript": "Descripcion del producto 1"
+    },
+{
+        "id": 12,
+        "name": "Producto 2",
+        "price": 200,
+        "descript": "Descripcion del producto 2"
+    },
+{
+        "id": 3,
+        "name": "Producto 3",
+        "price": 300,
+        "descript": "Descripcion del producto 3"
+    },
+]
+
+@app.get("/items")
+def read_item():
+    return all_products
+
+
 
 
 
