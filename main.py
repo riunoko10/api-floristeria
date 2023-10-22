@@ -2,7 +2,7 @@ from typing import Union
 from fastapi import FastAPI
 from fastapi.encoders import jsonable_encoder
 from fastapi.middleware.cors import CORSMiddleware
-
+import config as cfg
 
 app = FastAPI()
 
@@ -19,30 +19,25 @@ def read_item(item_id: int, q: Union[str, None] = None):
     return {"item_id": item_id, "q": q}
 
 
-all_products = [
-    {
-        "id": 1,
-        "name": "Producto 1",
-        "price": 100,
-        "descript": "Descripcion del producto 1"
-    },
-{
-        "id": 12,
-        "name": "Producto 2",
-        "price": 200,
-        "descript": "Descripcion del producto 2"
-    },
-{
-        "id": 3,
-        "name": "Producto 3",
-        "price": 300,
-        "descript": "Descripcion del producto 3"
-    },
-]
-
-@app.get("/items")
+@app.get("/products")
 def read_item():
-    return all_products
+    return cfg.all_products
+
+
+@app.get("/product/{id}")
+def get_product(id: int):
+    products = cfg.all_products
+    product_response = None
+    for product in products:
+        if product["id"] == id:
+            product_response = product
+    
+    if product_response:
+        return product_response
+    else:
+        return {"message": "Producto no encontrado"}
+
+
 
 
 
