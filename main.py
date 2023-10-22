@@ -2,7 +2,6 @@ from typing import Union
 from fastapi import FastAPI
 from fastapi.encoders import jsonable_encoder
 from fastapi.middleware.cors import CORSMiddleware
-from models.products_model import Products
 
 
 app = FastAPI()
