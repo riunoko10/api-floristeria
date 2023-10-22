@@ -17,6 +17,8 @@ class Product(BaseModel):
     category: str
     descript: str
 
+class ProductAdd(Product):
+    id: int
 
 @app.get("/")
 def read_root():
@@ -37,8 +39,9 @@ def read_item():
 def add_product(product: Product):
     product = jsonable_encoder(product)
     product["id"] = len(cfg.all_products) + 1
-    product = Product(**product)
-    cfg.all_products.append(product)
+    print(product)
+    product_dic = ProductAdd(**product)
+    cfg.all_products.append(product_dic)
     return cfg.all_products
 
 
