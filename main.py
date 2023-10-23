@@ -20,6 +20,16 @@ class Product(BaseModel):
 class ProductAdd(Product):
     id: int
 
+class Client(BaseModel):
+    name:str
+    last_name:str
+    email:str
+    edad:int
+    image:str
+
+class ClientAdd(Client):
+    id: int
+
 @app.get("/")
 def read_root():
     return {"Hello": "World"}
@@ -35,6 +45,11 @@ def read_item():
     return cfg.all_products
 
 
+@app.get("/clients")
+def read_clients():
+    return cfg.all_clients
+
+
 @app.post("/product")
 def add_product(product: Product):
     product = jsonable_encoder(product)
@@ -42,6 +57,15 @@ def add_product(product: Product):
     print(product)
     product_dic = ProductAdd(**product)
     cfg.all_products.append(product_dic)
+    return cfg.all_products
+
+
+@app.post("/client")
+def add_product(client: Client):
+    client = jsonable_encoder(client)
+    client["id"] = len(cfg.all_clients) + 1
+    client_dic = ProductAdd(**client)
+    cfg.all_products.append(client_dic)
     return cfg.all_products
 
 
@@ -59,6 +83,19 @@ def get_product(id: int):
         return {"message": "Producto no encontrado"}
 
 
+@app.delete("/product/{id}")
+def delete_product(id: int):
+    products = cfg.all_products
+    product_response = None
+    for product in products:
+        if product["id"] == id:
+            product_response = product
+
+    if product_response:
+        cfg.all_products.remove(product_response)
+        return {"message": "Producto eliminado"}
+    else:
+        return {"message": "Producto no encontrado"}
 
 
 

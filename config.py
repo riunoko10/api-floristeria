@@ -1,7 +1,4 @@
 
-
-
-
 all_products = [
     {
         "id": 1,
@@ -26,3 +23,29 @@ all_products = [
     },
 ]
 
+all_clients = [
+    { "name": 'Juan Manuel',
+      "last_name": 'Garcia Morales',
+      "email": 'juanma@mail.co',
+      "edad": 33,
+      "image": 'assets/images/usuario.png'
+    },
+    { "name": 'Maria Jose',
+      "last_name": 'Marin Castro',
+      "email": 'majo@mail.co',
+      "edad": 23,
+      "image": 'assets/images/usuario.png'
+    },
+    { "name": 'Pedro Andres',
+      "last_name": 'Perez Rojas',
+      "email": 'pedro@mail.co',
+      "edad": 43,
+      "image": 'assets/images/usuario.png'
+    },
+    { "name": 'Jairo',
+      "last_name": 'Toro Muñoz',
+      "email": 'pedro@mail.co',
+      "edad": 43,
+      "image": 'assets/images/usuario.png'
+    }
+  ]
