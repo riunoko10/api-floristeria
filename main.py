@@ -4,6 +4,7 @@ from fastapi.encoders import jsonable_encoder
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import config as cfg
+from typing import Optional
 
 app = FastAPI()
 
@@ -25,10 +26,11 @@ class Client(BaseModel):
     last_name:str
     email:str
     edad:int
-    image:str
+    image:Optional[str] = 'assets/images/usuario.png'
 
 class ClientAdd(Client):
     id: int
+
 
 @app.get("/")
 def read_root():
@@ -64,9 +66,9 @@ def add_product(product: Product):
 def add_product(client: Client):
     client = jsonable_encoder(client)
     client["id"] = len(cfg.all_clients) + 1
-    client_dic = ProductAdd(**client)
-    cfg.all_products.append(client_dic)
-    return cfg.all_products
+    client_dic = ClientAdd(**client)
+    cfg.all_clients.append(client_dic)
+    return cfg.all_clients
 
 
 @app.get("/product/{id}")
